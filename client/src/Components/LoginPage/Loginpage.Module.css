@@ -1,0 +1,41 @@
+.googleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  height: 50px;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  background: #4385f3;
+  position: relative;
+  color: white;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.googleContainer img {
+  width: 30px;
+  height: 30px;
+  padding: 0.6em;
+  background: white;
+  object-fit: contain;
+  left: 10px;
+  border-radius: 3px;
+  position: absolute;
+}
+
+.loginPage {
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.loginForm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 600px;
+  min-width: 40vw;
+}
