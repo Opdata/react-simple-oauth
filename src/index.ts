@@ -42,7 +42,7 @@ app.use(
     saveUninitialized: true,
     cookie: {
       sameSite: 'none', // Security for transferring cookies between different domains, 'none' = Can be transferred from any domain
-      secure: 'true', // Generate cookies only when https
+      secure: true, // Generate cookies only when https
       maxAge: 1000 * 60 * 60 * 24 * 7, // One Week
     },
   })
