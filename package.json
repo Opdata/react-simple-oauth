@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node build/dist/index.js",
-    "heroku-prebuild": "npm i",
+    "heroku-prebuild": "npm i && npm i -g typescript",
     "build": "tsc -p .",
     "dev": "nodemon --exec ts-node src/index.ts"
   },
