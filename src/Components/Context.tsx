@@ -8,7 +8,9 @@ export default function Context(props: any) {
 
   useEffect(() => {
     axios
-      .get('http://localhost:4000/getuser', { withCredentials: true })
+      .get('https://react-simple-oauth-backend.herokuapp.com/getuser', {
+        withCredentials: true,
+      })
       .then((res: AxiosResponse) => {
         if (res.data) {
           setUserObj(res.data);
