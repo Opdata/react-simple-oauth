@@ -1,6 +1,5 @@
 import googleIcon from '../../Assets/googleIcon.png';
 import githubIcon from '../../Assets/githubIcon.png';
-import styles from './Loginpage.Module.css';
 
 export default function Loginpage() {
   const googleLogin = () => {
