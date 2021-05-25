@@ -5,6 +5,7 @@ import cors from 'cors';
 import session from 'express-session';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import { Strategy as GitHubStrategy } from 'passport-github';
 
 dotenv.config();
 
@@ -45,9 +46,8 @@ passport.deserializeUser((user, done) => {
 passport.use(
   new GoogleStrategy(
     {
-      clientID:
-        '615224988599-qjc6oie6kde3j9vfmd180hgq4d6ivmr4.apps.googleusercontent.com',
-      clientSecret: '3TUGMRfN9egHR_7YeGjph7jq',
+      clientID: `${process.env.GOOGLE_CLIENT_ID}`,
+      clientSecret: `${process.env.GOOGLE_CLIENT_SECRET}`,
       callbackURL: '/auth/google/callback',
     },
     function (accessToken: any, refreshToken: any, profile: any, cb: any) {
@@ -58,7 +58,26 @@ passport.use(
         return cb(err, user);
       });
       */
-      console.log(profile);
+      cb(null, profile); // Move On
+    }
+  )
+);
+
+passport.use(
+  new GitHubStrategy(
+    {
+      clientID: `${process.env.GITHUB_CLIENT_ID}`,
+      clientSecret: `${process.env.GITHUB_CLIENT_SECRET}`,
+      callbackURL: '/auth/github/callback',
+    },
+    function (accessToken: any, refreshToken: any, profile: any, cb: any) {
+      // Called On Successful Auth
+
+      /* Insert Into Dtatbase
+      User.findOrCreate({ googleId: profile.id }, function (err, user) {
+        return cb(err, user);
+      });
+      */
       cb(null, profile); // Move On
     }
   )
@@ -72,6 +91,17 @@ app.get(
 app.get(
   '/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
+  function (req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('http://localhost:3000');
+  }
+);
+
+app.get('/auth/github', passport.authenticate('github'));
+
+app.get(
+  '/auth/github/callback',
+  passport.authenticate('github', { failureRedirect: '/login' }),
   function (req, res) {
     // Successful authentication, redirect home.
     res.redirect('http://localhost:3000');
