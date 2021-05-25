@@ -1,9 +1,14 @@
 import googleIcon from '../../Assets/googleIcon.png';
+import githubIcon from '../../Assets/githubIcon.png';
 import styles from './Loginpage.module.css';
 
 export default function Loginpage() {
   const googleLogin = () => {
     window.open('http://localhost:4000/auth/google', '_self');
+  };
+
+  const githubLogin = () => {
+    window.open('http://localhost:4000/auth/github', '_self');
   };
 
   return (
@@ -13,6 +18,14 @@ export default function Loginpage() {
         <div className={styles.googleContainer} onClick={googleLogin}>
           <img src={googleIcon} alt="google Icon" />
           <p>Login With Google</p>
+        </div>
+
+        <div
+          className={`${styles.googleContainer} ${styles.githubContainer}`}
+          onClick={githubLogin}
+        >
+          <img src={githubIcon} alt="github Icon" />
+          <p>Login With Github</p>
         </div>
       </div>
     </div>
