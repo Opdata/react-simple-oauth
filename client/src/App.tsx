@@ -6,14 +6,15 @@ import Loginpage from './Components/LoginPage/Loginpage';
 import Navbar from './Components/NavBar/Navbar';
 
 function App() {
-  const useObj = useContext(myContext);
-  console.log(useObj);
+  const userObj = useContext(myContext);
+  console.log(userObj);
   return (
     <BrowserRouter>
       <Navbar />
       <Switch>
         <Route path="/" exact component={Homepage} />
-        <Route path="/login" component={Loginpage} />
+
+        {userObj ? null : <Route path="/login" component={Loginpage} />}
       </Switch>
     </BrowserRouter>
   );
