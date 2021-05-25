@@ -41,8 +41,10 @@ passport.serializeUser((user, done) => {
   return done(null, user);
 });
 
-passport.deserializeUser((user, done) => {
-  return done(null, user);
+passport.deserializeUser((id: string, done) => {
+  User.findById(id, (err: Error, doc: IUser) => {
+    return done(null, doc); // Grab that user from database and return
+  });
 });
 
 passport.use(
@@ -76,10 +78,11 @@ passport.use(
               username: profile.name.givenName,
             });
             await newUser.save();
+            cb(null, newUser);
           }
+          cb(null, doc); // Callback Doc (had Doc)
         }
       );
-      cb(null, profile); // Move On
     }
   )
 );
@@ -115,10 +118,11 @@ passport.use(
               username: profile.username,
             });
             await newUser.save();
+            cb(null, newUser);
           }
+          cb(null, doc); // Callback Doc (had Doc)
         }
       );
-      cb(null, profile); // Move On
     }
   )
 );
