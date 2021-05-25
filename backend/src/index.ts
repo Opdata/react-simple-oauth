@@ -6,6 +6,8 @@ import session from 'express-session';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as GitHubStrategy } from 'passport-github';
+import IUser from './types';
+import User from './User';
 
 dotenv.config();
 
@@ -58,6 +60,25 @@ passport.use(
         return cb(err, user);
       });
       */
+      User.findOne(
+        {
+          googleId: profile.id,
+        },
+        async (err: Error, doc: IUser) => {
+          if (err) {
+            return cb(err, null);
+          }
+
+          if (!doc) {
+            // Create One
+            const newUser = new User({
+              googleId: profile.id,
+              username: profile.name.givenName,
+            });
+            await newUser.save();
+          }
+        }
+      );
       cb(null, profile); // Move On
     }
   )
@@ -78,6 +99,25 @@ passport.use(
         return cb(err, user);
       });
       */
+      User.findOne(
+        {
+          githubId: profile.id,
+        },
+        async (err: Error, doc: IUser) => {
+          if (err) {
+            return cb(err, null);
+          }
+
+          if (!doc) {
+            // Create One
+            const newUser = new User({
+              githubId: profile.id,
+              username: profile.username,
+            });
+            await newUser.save();
+          }
+        }
+      );
       cb(null, profile); // Move On
     }
   )
