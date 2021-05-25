@@ -6,7 +6,7 @@ import session from 'express-session';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as GitHubStrategy } from 'passport-github';
-import IUser from './types';
+import IMongoDBUser from './types';
 import User from './User';
 
 dotenv.config();
@@ -37,12 +37,12 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser((user, done) => {
+passport.serializeUser((user: IMongoDBUser, done) => {
   return done(null, user);
 });
 
 passport.deserializeUser((id: string, done) => {
-  User.findById(id, (err: Error, doc: IUser) => {
+  User.findById(id, (err: Error, doc: IMongoDBUser) => {
     return done(null, doc); // Grab that user from database and return
   });
 });
@@ -66,7 +66,7 @@ passport.use(
         {
           googleId: profile.id,
         },
-        async (err: Error, doc: IUser) => {
+        async (err: Error, doc: IMongoDBUser) => {
           if (err) {
             return cb(err, null);
           }
@@ -106,7 +106,7 @@ passport.use(
         {
           githubId: profile.id,
         },
-        async (err: Error, doc: IUser) => {
+        async (err: Error, doc: IMongoDBUser) => {
           if (err) {
             return cb(err, null);
           }
@@ -154,6 +154,13 @@ app.get(
 
 app.get('/getuser', (req, res) => {
   res.send(req.user);
+});
+
+app.get('/auth/logout', (req, res) => {
+  if (req.user) {
+    req.logout();
+    res.send('Success Logout');
+  }
 });
 
 app.get('/', (req, res) => {
